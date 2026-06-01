@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karamat Idara Management System — Ashara Mubaraka 1448</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#ffffff;--bg1:#f5f4f0;--bg2:#edecea;
+  --tx0:#181816;--tx1:#5c5c58;--tx2:#9a9a95;
+  --bl:rgba(0,0,0,0.1);--bm:rgba(0,0,0,0.16);
+  --r8:8px;--r12:12px;--r20:20px;
+  --ib:#e6f1fb;--it:#185fa5;--ibr:#b5d4f4;
+  --sb:#eaf3de;--st:#3b6d11;--sbr:#c0dd97;
+  --wb:#faeeda;--wt:#854f0b;--wbr:#fac775;
+  --db:#fcebeb;--dt:#a32d2d;--dbr:#f7c1c1;
+  --pb:#f3eeff;--pt:#5c35c9;--pbr:#c4b5f4;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg0:#1c1c1a;--bg1:#262624;--bg2:#2e2e2c;
+  --tx0:#eeeee8;--tx1:#9a9a95;--tx2:#5c5c58;
+  --bl:rgba(255,255,255,0.08);--bm:rgba(255,255,255,0.15);
+  --ib:#0c2d4a;--it:#85b7eb;--ibr:#185fa5;
+  --sb:#172f07;--st:#97c459;--sbr:#3b6d11;
+  --wb:#2d1e05;--wt:#ef9f27;--wbr:#854f0b;
+  --db:#2e0f0f;--dt:#f09595;--dbr:#a32d2d;
+  --pb:#1e1535;--pt:#a78bfa;--pbr:#5c35c9;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg1);color:var(--tx0);min-height:100vh}
+/* ── Header ── */
+.hdr{background:var(--bg0);border-bottom:0.5px solid var(--bl);padding:13px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:90;gap:10px;flex-wrap:wrap}
+.hdr-l h1{font-size:15px;font-weight:600;display:flex;align-items:center;gap:7px}
+.hdr-l p{font-size:11px;color:var(--tx1);margin-top:2px}
+.hdr-r{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.ldot{width:6px;height:6px;border-radius:50%;background:#1D9E75;display:inline-block;margin-right:4px;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+/* ── Nav ── */
+.nav{background:var(--bg0);border-bottom:0.5px solid var(--bl);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{display:none}
+.ntab{flex:1;min-width:80px;padding:11px 6px 9px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--tx1);border-bottom:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .15s;white-space:nowrap}
+.ntab i{font-size:18px}
+.ntab.active{color:var(--tx0);border-bottom-color:var(--tx0)}
+.ntab:hover:not(.active){color:var(--tx0)}
+/* ── Layout ── */
+.wrap{max-width:800px;margin:0 auto;padding:18px 14px}
+.view{display:none}.view.active{display:block}
+/* ── Cards ── */
+.card{background:var(--bg0);border:0.5px solid var(--bl);border-radius:var(--r12);padding:16px 18px;margin-bottom:12px}
+.card-title{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--tx1);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+/* ── Badges ── */
+.badge{padding:3px 9px;border-radius:var(--r20);font-size:11px;font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.b-blue{background:var(--ib);color:var(--it);border:0.5px solid var(--ibr)}
+.b-green{background:var(--sb);color:var(--st);border:0.5px solid var(--sbr)}
+.b-amber{background:var(--wb);color:var(--wt);border:0.5px solid var(--wbr)}
+.b-red{background:var(--db);color:var(--dt);border:0.5px solid var(--dbr)}
+.b-purple{background:var(--pb);color:var(--pt);border:0.5px solid var(--pbr)}
+.b-gray{background:var(--bg2);color:var(--tx1);border:0.5px solid var(--bm)}
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r8);font-size:13px;font-weight:500;cursor:pointer;border:0.5px solid transparent;transition:all .15s}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-p{background:var(--tx0);color:var(--bg0);border-color:var(--tx0)}.btn-p:hover:not(:disabled){opacity:.82}
+.btn-s{background:var(--bg1);color:var(--tx0);border-color:var(--bm)}.btn-s:hover:not(:disabled){background:var(--bg2)}
+.btn-d{background:var(--db);color:var(--dt);border-color:var(--dbr)}.btn-d:hover:not(:disabled){opacity:.85}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-xs{padding:2px 8px;font-size:11px;border-radius:5px}
+/* ── Forms ── */
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.fg label{font-size:12px;color:var(--tx1);font-weight:500}
+.fg input,.fg select,.fg textarea{padding:8px 11px;font-size:13px;border:0.5px solid var(--bm);border-radius:var(--r8);background:var(--bg0);color:var(--tx0);outline:none;transition:border-color .15s;font-family:inherit}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--it);box-shadow:0 0 0 3px var(--ib)}
+.fg textarea{resize:vertical;min-height:72px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.frow{grid-template-columns:1fr}}
+/* ── Alerts ── */
+.alert{padding:9px 13px;border-radius:var(--r8);font-size:13px;display:flex;align-items:flex-start;gap:7px;margin-top:8px}
+.al-w{background:var(--wb);color:var(--wt);border:0.5px solid var(--wbr)}
+.al-s{background:var(--sb);color:var(--st);border:0.5px solid var(--sbr)}
+.al-d{background:var(--db);color:var(--dt);border:0.5px solid var(--dbr)}
+/* ── Spinner ── */
+.spin{display:inline-block;width:13px;height:13px;border:2px solid var(--bl);border-top-color:var(--tx1);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* ── Volunteer picker ── */
+.vol-search-wrap{position:relative;margin-bottom:10px}
+.vol-search-wrap input{width:100%;padding:9px 11px 9px 34px;font-size:13px;border:0.5px solid var(--bm);border-radius:var(--r8);background:var(--bg0);color:var(--tx0);outline:none}
+.vol-search-wrap input:focus{border-color:var(--it);box-shadow:0 0 0 3px var(--ib)}
+.vol-search-wrap .si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--tx2);font-size:15px;pointer-events:none}
+.vol-list{max-height:220px;overflow-y:auto;border:0.5px solid var(--bl);border-radius:var(--r8);background:var(--bg0)}
+.vol-list:empty::after{content:'No volunteers in list — upload a CSV first';display:block;padding:14px;font-size:12px;color:var(--tx2);text-align:center}
+.vol-item{display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;border-bottom:0.5px solid var(--bl);transition:background .1s}
+.vol-item:last-child{border:none}
+.vol-item:hover{background:var(--bg1)}
+.vol-item.selected{background:var(--sb)}
+.vol-avatar{width:30px;height:30px;border-radius:50%;background:var(--ib);color:var(--it);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;overflow:hidden}
+.vol-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.vol-info{flex:1;min-width:0}
+.vol-info .vn{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vol-info .vr{font-size:11px;color:var(--tx1)}
+.vol-item .tick{color:var(--st);font-size:16px;opacity:0;transition:opacity .1s}
+.vol-item.selected .tick{opacity:1}
+/* Selected chips */
+.chip-wrap{display:flex;flex-wrap:wrap;gap:5px;min-height:32px;padding:6px 0 2px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 7px;border-radius:var(--r20);font-size:12px;background:var(--ib);color:var(--it);border:0.5px solid var(--ibr)}
+.chip .cx{cursor:pointer;font-size:14px;line-height:1;opacity:.5;background:none;border:none;color:inherit;padding:0}.chip .cx:hover{opacity:1}
+/* ── Date grid ── */
+.date-grid{display:flex;flex-wrap:wrap;gap:5px}
+.dbtn{padding:6px 11px;border-radius:var(--r8);border:0.5px solid var(--bm);background:var(--bg0);cursor:pointer;font-size:12px;color:var(--tx0);transition:all .12s}
+.dbtn:hover{background:var(--bg1)}
+.dbtn.sel{background:var(--ib);border-color:var(--ibr);color:var(--it);font-weight:500}
+/* ── Meal toggles ── */
+.meal-wrap{display:flex;gap:7px;flex-wrap:wrap}
+.mtog{display:flex;align-items:center;gap:5px;padding:7px 13px;border:0.5px solid var(--bm);border-radius:var(--r8);cursor:pointer;font-size:13px;color:var(--tx1);user-select:none;transition:all .12s}
+.mtog:hover{background:var(--bg1)}
+.mtog input{accent-color:#378ADD;width:13px;height:13px}
+.mtog.on{border-color:var(--ibr);background:var(--ib);color:var(--it)}
+/* ── Schedule view ── */
+.day-block{background:var(--bg0);border:0.5px solid var(--bl);border-radius:var(--r12);overflow:hidden;margin-bottom:10px}
+.day-hd{padding:9px 14px;background:var(--bg1);border-bottom:0.5px solid var(--bl);display:flex;justify-content:space-between;align-items:center}
+.day-hd .dn{font-size:13px;font-weight:500}
+.meal-row{display:flex;align-items:flex-start;gap:10px;padding:8px 14px;border-bottom:0.5px solid var(--bl)}
+.meal-row:last-child{border:none}
+.mm{width:88px;flex-shrink:0;padding-top:2px}
+.mm .mname{font-size:12px;font-weight:500;display:flex;align-items:center;gap:4px}
+.mm .mtime{font-size:10px;color:var(--tx2);margin-top:1px}
+.vols-row{flex:1;display:flex;flex-wrap:wrap;gap:4px;min-height:26px;align-items:center}
+.vcell{display:inline-flex;align-items:center;gap:4px;padding:2px 8px 2px 6px;border-radius:var(--r20);font-size:11px;background:var(--sb);color:var(--st);border:0.5px solid var(--sbr)}
+.vcell .rm{cursor:pointer;font-size:13px;line-height:1;opacity:.45;background:none;border:none;color:inherit;padding:0}.vcell .rm:hover{opacity:1}
+.no-v{font-size:12px;color:var(--tx2);font-style:italic}
+.cnt-ok{background:var(--sb);color:var(--st)}
+.cnt-w{background:var(--wb);color:var(--wt)}
+.cnt-lo{background:var(--db);color:var(--dt)}
+.cbadge{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500;flex-shrink:0;margin-top:2px}
+/* ── Issues ── */
+.issue-card{background:var(--bg0);border:0.5px solid var(--bl);border-radius:var(--r12);overflow:hidden;margin-bottom:10px}
+.issue-hd{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-bottom:0.5px solid var(--bl)}
+.issue-hd .ithumb{width:56px;height:56px;border-radius:var(--r8);object-fit:cover;flex-shrink:0;background:var(--bg1);display:flex;align-items:center;justify-content:center;color:var(--tx2);font-size:22px;overflow:hidden}
+.issue-hd .ithumb img{width:100%;height:100%;object-fit:cover}
+.issue-meta{flex:1;min-width:0}
+.issue-meta .ititle{font-size:13px;font-weight:600;margin-bottom:3px}
+.issue-meta .idesc{font-size:12px;color:var(--tx1);margin-bottom:6px;line-height:1.5}
+.issue-ft{padding:8px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--tx1);background:var(--bg1)}
+.photo-drop{border:1.5px dashed var(--bm);border-radius:var(--r8);padding:18px;text-align:center;cursor:pointer;transition:border-color .15s;margin-bottom:10px;position:relative}
+.photo-drop:hover,.photo-drop.drag{border-color:var(--it);background:var(--ib)}
+.photo-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.photo-drop p{font-size:13px;color:var(--tx1);pointer-events:none}
+.photo-drop .pi{font-size:28px;color:var(--tx2);display:block;margin-bottom:6px;pointer-events:none}
+.thumb-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.thumb-wrap{position:relative;width:64px;height:64px}
+.thumb-wrap img{width:64px;height:64px;object-fit:cover;border-radius:var(--r8);border:0.5px solid var(--bl)}
+.thumb-wrap .del-img{position:absolute;top:-5px;right:-5px;width:17px;height:17px;border-radius:50%;background:var(--dt);color:#fff;border:none;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center}
+/* ── Tasks ── */
+.task-card{background:var(--bg0);border:0.5px solid var(--bl);border-radius:var(--r12);overflow:hidden;margin-bottom:8px}
+.task-hd{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:0.5px solid var(--bl)}
+.task-hd .tcheck{width:18px;height:18px;border:1.5px solid var(--bm);border-radius:4px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.task-hd .tcheck.done{background:var(--st);border-color:var(--st)}
+.task-hd .tcheck.done::after{content:'✓';font-size:11px;color:#fff}
+.task-hd .ttitle{flex:1;font-size:13px;font-weight:500}
+.task-hd .ttitle.done{text-decoration:line-through;color:var(--tx1)}
+.task-ft{padding:7px 14px;background:var(--bg1);display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--tx1)}
+.task-ft .assigned{display:flex;flex-wrap:wrap;gap:4px}
+/* ── Khidmatguzar list (admin) ── */
+.vol-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:0.5px solid var(--bl)}
+.vol-row:last-child{border:none}
+/* ── Filter pills ── */
+.fpills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.fp{padding:4px 12px;border-radius:var(--r20);border:0.5px solid var(--bm);background:var(--bg0);cursor:pointer;font-size:12px;color:var(--tx1);transition:all .12s}
+.fp.active{background:var(--tx0);color:var(--bg0);border-color:var(--tx0)}
+/* ── Modals ── */
+.mbk{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center;padding:16px}
+.mbk.open{display:flex}
+.mbox{background:var(--bg0);border-radius:var(--r12);padding:22px;width:100%;max-width:420px;border:0.5px solid var(--bl);max-height:90vh;overflow-y:auto}
+.mbox h3{font-size:15px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:7px}
+/* ── Summary metrics ── */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:16px}
+.met{background:var(--bg0);border:0.5px solid var(--bl);border-radius:var(--r12);padding:12px 14px}
+.met .mv{font-size:22px;font-weight:600}
+.met .ml{font-size:11px;color:var(--tx1);margin-top:2px}
+/* ── Priority dots ── */
+.pri-high::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--dt);margin-right:5px;vertical-align:1px}
+.pri-med::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--wt);margin-right:5px;vertical-align:1px}
+.pri-low::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--st);margin-right:5px;vertical-align:1px}
+/* ── Image lightbox ── */
+.lbk{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:300;align-items:center;justify-content:center}
+.lbk.open{display:flex}
+.lbk img{max-width:94vw;max-height:88vh;border-radius:var(--r8);object-fit:contain}
+.lbk .lclose{position:absolute;top:16px;right:20px;font-size:28px;color:#fff;cursor:pointer;background:none;border:none;line-height:1}
+/* ── Admin-only tabs ── */
+.admin-tab{display:none}
+.admin-tab.visible{display:flex}
+/* ── Admin-only wall (shown to non-admins who somehow reach these views) ── */
+.gate-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;padding:2rem 1rem}
+.gate-box{background:var(--bg0);border:0.5px solid var(--bl);border-radius:var(--r12);padding:28px 24px;width:100%;max-width:340px;text-align:center}
+.gate-box .gi{font-size:36px;color:var(--tx2);margin-bottom:12px;display:block}
+.gate-box h2{font-size:15px;font-weight:600;margin-bottom:4px}
+.gate-box p{font-size:13px;color:var(--tx1);margin-bottom:18px}
+/* ── App login screen ── */
+#app-login{position:fixed;inset:0;background:var(--bg1);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+#app-login .login-card{background:var(--bg0);border:0.5px solid var(--bl);border-radius:var(--r12);padding:36px 28px;width:100%;max-width:360px;text-align:center}
+#app-login .app-logo{font-size:40px;color:var(--it);margin-bottom:14px;display:block}
+#app-login h1{font-size:17px;font-weight:700;color:var(--tx0);margin-bottom:4px}
+#app-login .sub{font-size:12px;color:var(--tx1);margin-bottom:28px;line-height:1.5}
+#app-login .fg{text-align:left;margin-bottom:12px}
+#app-login .fg label{font-size:12px;color:var(--tx1);font-weight:500;display:block;margin-bottom:5px}
+#app-login .fg input{width:100%;padding:10px 13px;font-size:15px;border:0.5px solid var(--bm);border-radius:var(--r8);background:var(--bg0);color:var(--tx0);outline:none;letter-spacing:.1em;transition:border-color .15s}
+#app-login .fg input:focus{border-color:var(--it);box-shadow:0 0 0 3px var(--ib)}
+#app-login .login-btn{width:100%;padding:11px;background:var(--tx0);color:var(--bg0);border:none;border-radius:var(--r8);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s}
+#app-login .login-btn:hover{opacity:.85}
+#app-login .login-btn:disabled{opacity:.45;cursor:not-allowed}
+#app-login .login-err{margin-top:12px;padding:10px 13px;background:var(--db);color:var(--dt);border:0.5px solid var(--dbr);border-radius:var(--r8);font-size:13px;display:none;align-items:flex-start;gap:7px}
+#app-login .login-footer{margin-top:18px;font-size:11px;color:var(--tx2)}
+/* ── Header user chip ── */
+.user-chip{display:flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border-radius:var(--r20);background:var(--bg1);border:0.5px solid var(--bl);cursor:pointer;font-size:12px;font-weight:500}
+.user-chip .ava{width:22px;height:22px;border-radius:50%;background:var(--ib);color:var(--it);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;overflow:hidden;flex-shrink:0}
+.user-chip .ava img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+</style>
+</head>
+<body>
+
+<!-- ═══════ APP LOGIN SCREEN ═══════ -->
+<div id="app-login">
+  <div class="login-card">
+    <i class="ti ti-shield-lock app-logo"></i>
+    <h1>Karamat Idara Management System</h1>
+    <p class="sub">Ashara Mubaraka 1448H &nbsp;·&nbsp; London<br>Sign in with your ITS number to continue.</p>
+    <div class="fg">
+      <label>ITS Number</label>
+      <input type="text" id="login-its" inputmode="numeric" placeholder="Enter your ITS number" onkeydown="if(event.key==='Enter')doAppLogin()">
+    </div>
+    <button class="login-btn" id="login-btn" onclick="doAppLogin()"><i class="ti ti-login" style="font-size:16px"></i>Sign in</button>
+    <div class="login-err" id="login-err"><i class="ti ti-alert-circle"></i><span id="login-err-msg">Login failed. Please contact admin.</span></div>
+    <p class="login-footer">This system is restricted to authorised khidmatguzars only.</p>
+  </div>
+</div>
+
+<div class="hdr">
+  <div class="hdr-l">
+    <h1><i class="ti ti-calendar-event"></i>Karamat Idara Management System</h1>
+    <p><span class="ldot"></span>Ashara Mubaraka 1448H &nbsp;·&nbsp; London</p>
+  </div>
+  <div class="hdr-r">
+    <div class="user-chip" id="user-chip" onclick="openUserMenu()" style="display:none">
+      <div class="ava" id="user-ava"></div>
+      <span id="user-name-lbl"></span>
+      <i class="ti ti-chevron-down" style="font-size:12px;color:var(--tx2)"></i>
+    </div>
+    <span class="badge b-blue" id="days-badge">11 days</span>
+    <span class="badge b-amber" id="admin-badge" onclick="openAdminModal()" style="cursor:pointer">
+      <i class="ti ti-lock" style="font-size:12px"></i><span id="admin-lbl">Admin</span>
+    </span>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="ntab active" onclick="switchTab('schedule',this)"><i class="ti ti-calendar-time"></i>Schedule</button>
+  <button class="ntab" onclick="switchTab('tasks',this)"><i class="ti ti-checklist"></i>Tasks</button>
+  <button class="ntab" onclick="switchTab('issues',this)"><i class="ti ti-alert-triangle"></i>Issues</button>
+  <button class="ntab admin-tab" id="ntab-roles" onclick="switchTab('roles',this)"><i class="ti ti-tag"></i>Roles</button>
+  <button class="ntab admin-tab" id="ntab-overview" onclick="switchTab('overview',this)"><i class="ti ti-chart-bar"></i>Overview</button>
+  <button class="ntab admin-tab" id="ntab-volunteers" onclick="switchTab('volunteers',this)"><i class="ti ti-users"></i>Khidmatguzars</button>
+</nav>
+
+<div class="wrap">
+
+<!-- ═══════════════════════════════ SCHEDULE ═══════════════════════════════ -->
+<div class="view active" id="view-schedule">
+
+  <div class="card">
+    <div class="card-title">Submit availability
+      <button class="btn btn-s btn-sm" onclick="clearSubmitForm()"><i class="ti ti-refresh" style="font-size:13px"></i>Clear</button>
+    </div>
+
+    <div class="fg">
+      <label>Select khidmatguzar</label>
+      <div class="vol-search-wrap">
+        <i class="ti ti-search si"></i>
+        <input type="text" id="vol-search" placeholder="Search by name or role…" oninput="filterVolList()" onclick="openVolPicker()">
+      </div>
+      <div id="vol-picker-list" class="vol-list" style="display:none"></div>
+    </div>
+
+    <div class="chip-wrap" id="selected-chips"></div>
+
+    <div class="fg" style="margin-top:8px">
+      <label>Select date</label>
+      <div class="date-grid" id="date-picker"></div>
+    </div>
+
+    <div class="fg" style="margin-top:8px">
+      <label>Meal slots</label>
+      <div class="meal-wrap">
+        <label class="mtog"><input type="checkbox" value="breakfast" onchange="toggleMeal(this)"><i class="ti ti-coffee" style="font-size:14px"></i>Breakfast</label>
+        <label class="mtog"><input type="checkbox" value="lunch" onchange="toggleMeal(this)"><i class="ti ti-salad" style="font-size:14px"></i>Lunch</label>
+        <label class="mtog"><input type="checkbox" value="dinner" onchange="toggleMeal(this)"><i class="ti ti-moon" style="font-size:14px"></i>Dinner</label>
+      </div>
+    </div>
+
+    <div id="sched-alert" style="display:none"></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
+      <button class="btn btn-p" id="sched-btn" onclick="submitSchedule()"><i class="ti ti-check"></i>Save availability</button>
+      <span id="sched-ok" style="display:none;font-size:13px;color:var(--st)"><i class="ti ti-circle-check"></i> Saved!</span>
+    </div>
+  </div>
+
+  <div class="fpills">
+    <span style="font-size:12px;color:var(--tx1);padding-top:4px">Filter:</span>
+    <button class="fp active" onclick="setMealFilter('all',this)">All</button>
+    <button class="fp" onclick="setMealFilter('breakfast',this)"><i class="ti ti-coffee" style="font-size:11px"></i> Breakfast</button>
+    <button class="fp" onclick="setMealFilter('lunch',this)"><i class="ti ti-salad" style="font-size:11px"></i> Lunch</button>
+    <button class="fp" onclick="setMealFilter('dinner',this)"><i class="ti ti-moon" style="font-size:11px"></i> Dinner</button>
+  </div>
+  <div id="schedule-list"></div>
+</div>
+
+<!-- ═══════════════════════════════ ROLES ═══════════════════════════════ -->
+<div class="view" id="view-roles">
+  <div id="wall-roles" class="gate-wrap" style="display:none">
+    <div class="gate-box">
+      <i class="ti ti-shield-lock gi"></i>
+      <h2>Admin access only</h2>
+      <p>This section is restricted to admin khidmatguzars. Please contact your admin if you need access.</p>
+    </div>
+  </div>
+  <div id="content-roles">
+    <div class="card">
+      <div class="card-title">Add new role
+        <span class="badge b-gray" id="role-count-badge">0 roles</span>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>Role name</label><input type="text" id="new-role-name" placeholder="e.g. Kitchen, Logistics" onkeydown="if(event.key==='Enter')addRole()"></div>
+        <div class="fg"><label>Colour tag</label>
+          <select id="new-role-color">
+            <option value="b-gray">Grey (default)</option>
+            <option value="b-blue">Blue</option>
+            <option value="b-green">Green</option>
+            <option value="b-amber">Amber</option>
+            <option value="b-red">Red</option>
+            <option value="b-purple">Purple</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label>Description <span style="color:var(--tx2)">(optional)</span></label><input type="text" id="new-role-desc" placeholder="Brief description of responsibilities"></div>
+      <div id="add-role-alert" style="display:none"></div>
+      <button class="btn btn-p btn-sm" onclick="addRole()"><i class="ti ti-plus" style="font-size:13px"></i>Add role</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Roles list</div>
+      <div id="roles-list-container"></div>
+    </div>
+  </div>
+</div><!-- end view-roles -->
+
+<!-- ═══════════════════════════════ VOLUNTEERS ═══════════════════════════════ -->
+<div class="view" id="view-volunteers">
+  <div id="wall-volunteers" class="gate-wrap" style="display:none">
+    <div class="gate-box">
+      <i class="ti ti-shield-lock gi"></i>
+      <h2>Admin access only</h2>
+      <p>This section is restricted to admin khidmatguzars. Please contact your admin if you need access.</p>
+    </div>
+  </div>
+  <div id="content-volunteers">
+  <div class="card">
+    <div class="card-title">Import from CSV
+      <span class="badge b-gray" id="vol-count-badge">0 khidmatguzars</span>
+    </div>
+    <div class="photo-drop" id="csv-drop">
+      <input type="file" accept=".csv" onchange="handleCSV(this.files[0])">
+      <i class="ti ti-file-spreadsheet pi"></i>
+      <p style="font-weight:500;margin-bottom:3px">Drop CSV file here or click to browse</p>
+      <p style="font-size:11px;color:var(--tx2)">Columns: <code>name</code>, <code>role</code>, <code>its_number</code>, <code>phone</code>, <code>email</code>, <code>admin</code> (yes/no)</p>
+    </div>
+    <div id="csv-alert" style="display:none"></div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:8px">
+      <button class="btn btn-s btn-sm" onclick="downloadSampleCSV()"><i class="ti ti-download" style="font-size:13px"></i>Download sample CSV</button>
+      <button class="btn btn-d btn-sm" onclick="clearVolunteers()" id="clear-vol-btn" style="display:none"><i class="ti ti-trash" style="font-size:13px"></i>Clear all khidmatguzars</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Add single khidmatguzar</div>
+    <div class="frow">
+      <div class="fg"><label>Name</label><input type="text" id="add-vol-name" placeholder="Full name"></div>
+      <div class="fg"><label>Role</label>
+        <select id="add-vol-role">
+          <option value="">— Select role —</option>
+        </select>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>ITS Number <span style="color:var(--tx2)">(optional)</span></label><input type="text" id="add-vol-its" placeholder="ITS number"></div>
+      <div class="fg"><label>Phone <span style="color:var(--tx2)">(optional)</span></label><input type="tel" id="add-vol-phone" placeholder="e.g. 07700 900000"></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>Email <span style="color:var(--tx2)">(optional)</span></label><input type="email" id="add-vol-email" placeholder="email@example.com"></div>
+      <div class="fg"><label>Photo <span style="color:var(--tx2)">(optional)</span></label>
+        <input type="file" accept="image/*" id="add-vol-photo" onchange="previewVolPhoto(this)">
+      </div>
+    </div>
+    <div id="vol-photo-preview" style="display:none;margin-bottom:10px">
+      <img id="vol-photo-img" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:0.5px solid var(--bl)">
+    </div>
+    <label style="display:inline-flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:12px;padding:8px 12px;border:0.5px solid var(--bm);border-radius:var(--r8)">
+      <input type="checkbox" id="add-vol-admin" style="accent-color:#185fa5;width:15px;height:15px">
+      <i class="ti ti-shield-check" style="font-size:15px;color:var(--it)"></i>
+      <span>Mark as admin khidmatguzar</span>
+    </label>
+    <button class="btn btn-p btn-sm" onclick="addSingleVolunteer()"><i class="ti ti-plus" style="font-size:13px"></i>Add khidmatguzar</button>
+    <div id="add-vol-alert" style="display:none"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Khidmatguzar list
+      <input type="text" id="vol-list-search" placeholder="Search…" style="font-size:12px;padding:4px 9px;border:0.5px solid var(--bm);border-radius:var(--r8);background:var(--bg0);color:var(--tx0);width:140px" oninput="renderVolList()">
+    </div>
+    <div id="vol-list-container"></div>
+  </div>
+</div><!-- end content-volunteers -->
+</div><!-- end view-volunteers -->
+
+<!-- ═══════════════════════════════ TASKS ═══════════════════════════════ -->
+<div class="view" id="view-tasks">
+  <div class="card">
+    <div class="card-title">New task</div>
+    <div class="fg"><label>Title</label><input type="text" id="task-title" placeholder="Task description"></div>
+    <div class="frow">
+      <div class="fg"><label>Priority</label>
+        <select id="task-priority">
+          <option value="high">High</option>
+          <option value="med" selected>Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="fg"><label>Due date</label>
+        <select id="task-date">
+          <option value="">Any day</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg"><label>Meal slot <span style="color:var(--tx2)">(optional)</span></label>
+      <select id="task-meal">
+        <option value="">Any / General</option>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+      </select>
+    </div>
+    <div class="fg"><label>Assign to khidmatguzars</label>
+      <div class="vol-search-wrap">
+        <i class="ti ti-search si"></i>
+        <input type="text" id="task-vol-search" placeholder="Search khidmatguzars…" oninput="filterTaskVolList()" onclick="openTaskVolPicker()">
+      </div>
+      <div id="task-vol-list" class="vol-list" style="display:none;margin-top:4px"></div>
+    </div>
+    <div class="chip-wrap" id="task-assigned-chips"></div>
+    <div class="fg"><label>Notes <span style="color:var(--tx2)">(optional)</span></label><textarea id="task-notes" placeholder="Additional notes…"></textarea></div>
+    <div id="task-alert" style="display:none"></div>
+    <button class="btn btn-p btn-sm" onclick="addTask()"><i class="ti ti-plus" style="font-size:13px"></i>Add task</button>
+  </div>
+
+  <div class="fpills">
+    <button class="fp active" onclick="setTaskFilter('all',this)">All</button>
+    <button class="fp" onclick="setTaskFilter('open',this)">Open</button>
+    <button class="fp" onclick="setTaskFilter('done',this)">Done</button>
+    <button class="fp" onclick="setTaskFilter('high',this)"><span class="pri-high"></span>High</button>
+    <button class="fp" onclick="setTaskFilter('med',this)"><span class="pri-med"></span>Medium</button>
+    <button class="fp" onclick="setTaskFilter('low',this)"><span class="pri-low"></span>Low</button>
+  </div>
+  <div id="task-list"></div>
+</div>
+
+<!-- ═══════════════════════════════ ISSUES ═══════════════════════════════ -->
+<div class="view" id="view-issues">
+  <div class="card">
+    <div class="card-title">Report an issue</div>
+    <div class="frow">
+      <div class="fg"><label>Reported by</label>
+        <div class="vol-search-wrap">
+          <i class="ti ti-search si"></i>
+          <input type="text" id="issue-reporter-search" placeholder="Your name…" oninput="filterIssueReporterList()" onclick="openIssueReporterPicker()">
+        </div>
+        <div id="issue-reporter-list" class="vol-list" style="display:none;margin-top:4px;max-height:150px"></div>
+        <input type="hidden" id="issue-reporter-val">
+      </div>
+      <div class="fg"><label>Category</label>
+        <select id="issue-cat">
+          <option value="food">Food / Kitchen</option>
+          <option value="logistics">Logistics</option>
+          <option value="safety">Safety</option>
+          <option value="facilities">Facilities</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg"><label>Title</label><input type="text" id="issue-title" placeholder="Brief summary of the issue"></div>
+    <div class="fg"><label>Description</label><textarea id="issue-desc" placeholder="Describe the issue in detail…"></textarea></div>
+    <div class="fg"><label>Severity</label>
+      <select id="issue-sev">
+        <option value="low">Low — minor inconvenience</option>
+        <option value="med" selected>Medium — needs attention</option>
+        <option value="high">High — urgent</option>
+        <option value="crit">Critical — stop everything</option>
+      </select>
+    </div>
+    <div class="fg"><label>Photos <span style="color:var(--tx2)">(optional)</span></label>
+      <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+        <label class="btn btn-s btn-sm" style="cursor:pointer;position:relative;overflow:hidden">
+          <i class="ti ti-camera" style="font-size:14px"></i>Take photo
+          <input type="file" accept="image/*" capture="environment" multiple onchange="handleIssuePhotos(this.files)" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+        </label>
+        <label class="btn btn-s btn-sm" style="cursor:pointer;position:relative;overflow:hidden">
+          <i class="ti ti-photo" style="font-size:14px"></i>Choose from library
+          <input type="file" accept="image/*" multiple onchange="handleIssuePhotos(this.files)" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+        </label>
+      </div>
+      <div class="thumb-row" id="issue-thumbs"></div>
+    </div>
+    <div id="issue-alert" style="display:none"></div>
+    <button class="btn btn-p btn-sm" onclick="submitIssue()"><i class="ti ti-send" style="font-size:13px"></i>Submit issue</button>
+  </div>
+
+  <div class="fpills">
+    <button class="fp active" onclick="setIssueFilter('all',this)">All</button>
+    <button class="fp" onclick="setIssueFilter('open',this)">Open</button>
+    <button class="fp" onclick="setIssueFilter('resolved',this)">Resolved</button>
+    <button class="fp" onclick="setIssueFilter('crit',this)"><i class="ti ti-flame" style="font-size:11px"></i> Critical</button>
+  </div>
+  <div id="issue-list"></div>
+</div>
+
+<!-- ═══════════════════════════════ OVERVIEW ═══════════════════════════════ -->
+<div class="view" id="view-overview">
+  <div id="wall-overview" class="gate-wrap" style="display:none">
+    <div class="gate-box">
+      <i class="ti ti-shield-lock gi"></i>
+      <h2>Admin access only</h2>
+      <p>This section is restricted to admin khidmatguzars. Please contact your admin if you need access.</p>
+    </div>
+  </div>
+  <div id="content-overview">
+  <div class="metrics" id="ov-metrics"></div>
+  <div class="card">
+    <div class="card-title">Daily coverage</div>
+    <div style="display:flex;gap:14px;margin-bottom:10px;font-size:11px;color:var(--tx1);flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:5px;border-radius:2px;background:#1D9E75;display:inline-block"></span>Breakfast</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:5px;border-radius:2px;background:#378ADD;display:inline-block"></span>Lunch</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:9px;height:5px;border-radius:2px;background:#BA7517;display:inline-block"></span>Dinner</span>
+    </div>
+    <div id="ov-coverage"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Open tasks by priority</div>
+    <div id="ov-tasks"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Recent issues</div>
+    <div id="ov-issues"></div>
+  </div>
+</div><!-- end content-overview -->
+</div><!-- end view-overview -->
+
+</div><!-- .wrap -->
+
+<!-- User menu modal -->
+<div class="mbk" id="user-modal">
+  <div class="mbox" style="max-width:320px;text-align:center">
+    <div id="um-avatar" style="display:flex;justify-content:center;margin-bottom:12px"></div>
+    <div style="font-size:16px;font-weight:600" id="um-name"></div>
+    <div style="font-size:12px;color:var(--tx1);margin-top:3px" id="um-role"></div>
+    <div style="font-size:11px;color:var(--tx2);margin-top:2px" id="um-its"></div>
+    <div style="margin-top:18px;display:flex;flex-direction:column;gap:8px">
+      <button class="btn btn-d btn-sm" style="justify-content:center;width:100%" onclick="doAppLogout()"><i class="ti ti-logout" style="font-size:14px"></i>Sign out</button>
+      <button class="btn btn-s btn-sm" style="justify-content:center;width:100%" onclick="closeModal('user-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin modal -->
+<div class="mbk" id="admin-modal">
+  <div class="mbox">
+    <h3 id="am-title"><i class="ti ti-lock"></i>Admin login</h3>
+    <div id="am-login">
+      <div class="fg"><label>Password</label><input type="password" id="am-pw" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doAdminLogin()"></div>
+      <div id="am-login-alert" style="display:none"></div>
+      <div style="display:flex;gap:7px;margin-top:12px">
+        <button class="btn btn-p btn-sm" onclick="doAdminLogin()">Login</button>
+        <button class="btn btn-s btn-sm" onclick="closeModal('admin-modal')">Cancel</button>
+      </div>
+    </div>
+    <div id="am-loggedin" style="display:none">
+      <p style="font-size:13px;color:var(--tx1);margin-bottom:14px">Logged in as admin. You can remove entries and manage data.</p>
+      <div style="border-top:0.5px solid var(--bl);padding-top:12px;margin-bottom:12px">
+        <p style="font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--tx1);margin-bottom:8px">Admin password</p>
+        <div class="fg"><label>New admin password</label><input type="password" id="am-newpw" placeholder="Min. 6 characters"></div>
+        <div id="am-pw-alert" style="display:none"></div>
+        <button class="btn btn-p btn-sm" onclick="doChangePw()" style="margin-top:2px">Update admin password</button>
+      </div>
+      <div style="border-top:0.5px solid var(--bl);padding-top:12px;display:flex;gap:7px;flex-wrap:wrap">
+        <button class="btn btn-d btn-sm" onclick="doAdminLogout()"><i class="ti ti-logout" style="font-size:13px"></i>Logout</button>
+        <button class="btn btn-s btn-sm" onclick="closeModal('admin-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Issue detail modal -->
+<div class="mbk" id="issue-modal">
+  <div class="mbox" style="max-width:500px">
+    <h3><i class="ti ti-alert-triangle"></i><span id="im-title">Issue</span></h3>
+    <div id="im-body"></div>
+    <div style="display:flex;gap:7px;margin-top:14px;flex-wrap:wrap" id="im-actions"></div>
+  </div>
+</div>
+
+<!-- Image lightbox -->
+<div class="lbk" id="lightbox" onclick="closeLightbox()">
+  <button class="lclose" onclick="closeLightbox()">×</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// API HELPERS
+// ══════════════════════════════════════════
+const api = {
+  async get(url){ const r=await fetch(url); if(!r.ok) throw await r.json(); return r.json(); },
+  async post(url,body){ const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); if(!r.ok) throw await r.json(); return r.json(); },
+  async put(url,body){ const r=await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); if(!r.ok) throw await r.json(); return r.json(); },
+  async del(url){ const r=await fetch(url,{method:'DELETE'}); if(!r.ok) throw await r.json(); return r.json(); }
+};
+
+// ── App state ──
+let currentUser = null;
+let khidmatguzars = [];
+let roles = [];
+let availability = {};
+let tasks = [];
+let issues = [];
+
+// ── Date / Meal constants ──
+const DATES=[];
+const _s=new Date(2026,5,15);
+for(let i=0;i<11;i++){const d=new Date(_s);d.setDate(15+i);DATES.push(d);}
+const FMT=d=>d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+const FMT_S=d=>d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+const FMT_M=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+const MEALS=['breakfast','lunch','dinner'];
+const MTIME={breakfast:'7:00–9:00am',lunch:'12:30–2:00pm',dinner:'7:00–9:30pm'};
+const MICON={breakfast:'ti-coffee',lunch:'ti-salad',dinner:'ti-moon'};
+const MCOL={breakfast:'#1D9E75',lunch:'#378ADD',dinner:'#BA7517'};
+const KEY=(di,m)=>di+'_'+m;
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function isAdmin(){ return !!(currentUser&&(currentUser.is_admin||currentUser.isAdminLogin)); }
+function badgeCls(n){ return n>=4?'cnt-ok':n>=2?'cnt-w':'cnt-lo'; }
+function showAlert(id,msg,type='w'){const el=document.getElementById(id);if(!el)return;el.className='alert al-'+type;el.innerHTML='<i class="ti ti-alert-circle"></i>'+msg;el.style.display='flex';}
+function hideAlert(id){const el=document.getElementById(id);if(el)el.style.display='none';}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function avatarHtml(vol,size=30){
+  if(vol&&vol.photo)return`<div class="vol-avatar" style="width:${size}px;height:${size}px"><img src="${vol.photo}" alt=""></div>`;
+  const ini=(vol&&vol.name?vol.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase():'?');
+  return`<div class="vol-avatar" style="width:${size}px;height:${size}px;font-size:${Math.round(size*0.38)}px">${ini}</div>`;
+}
+function getRoleColor(roleName){const r=roles.find(x=>x.name===roleName);return r?r.color:'b-gray';}
+
+// ══════════════════════════════════════════
+// DATA LOADERS
+// ══════════════════════════════════════════
+async function loadAll(){
+  [khidmatguzars,roles,availability,tasks,issues] = await Promise.all([
+    api.get('/api/khidmatguzars'),
+    api.get('/api/roles'),
+    api.get('/api/availability'),
+    api.get('/api/tasks'),
+    api.get('/api/issues')
+  ]);
+  populateRoleDropdowns();
+  updateVolCountBadge();
+}
+
+// ══════════════════════════════════════════
+// APP LOGIN / LOGOUT
+// ══════════════════════════════════════════
+async function doAppLogin(){
+  const its=document.getElementById('login-its').value.trim();
+  const errEl=document.getElementById('login-err');
+  const errMsg=document.getElementById('login-err-msg');
+  errEl.style.display='none';
+  if(!its){errMsg.textContent='Please enter your ITS number.';errEl.style.display='flex';return;}
+  const btn=document.getElementById('login-btn');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span> Signing in…';
+  try{
+    const data=await api.post('/api/auth/login',{its_number:its});
+    currentUser=data.user;
+    await loadAll();
+    showApp();
+  }catch(e){
+    errMsg.textContent=e.error||'Login failed. Please contact admin.';
+    errEl.style.display='flex';
+    document.getElementById('login-its').select();
+  }finally{btn.disabled=false;btn.innerHTML='<i class="ti ti-login" style="font-size:16px"></i>Sign in';}
+}
+
+async function doAppLogout(){
+  await api.post('/api/auth/logout',{}).catch(()=>{});
+  currentUser=null;
+  closeModal('user-modal');
+  closeModal('admin-modal');
+  document.getElementById('app-login').style.display='flex';
+  document.getElementById('login-its').value='';
+  document.getElementById('login-err').style.display='none';
+  updateAdminBadge();
+  setTimeout(()=>document.getElementById('login-its').focus(),100);
+}
+
+function showApp(){
+  document.getElementById('app-login').style.display='none';
+  updateAdminBadge();
+  showAdminTabs();
+  updateUserChip();
+  buildSchedule();
+  if(currentUser&&currentUser.id!=='__admin__'){
+    schedSelectedVols=[currentUser];
+    renderSchedChips();
+  }
+}
+
+function updateUserChip(){
+  const u=currentUser;
+  if(!u){document.getElementById('user-chip').style.display='none';return;}
+  document.getElementById('user-chip').style.display='flex';
+  const ava=document.getElementById('user-ava');
+  if(u.photo)ava.innerHTML=`<img src="${u.photo}" alt="">`;
+  else ava.textContent=u.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('user-name-lbl').textContent=u.name.split(' ')[0];
+}
+
+function openUserMenu(){
+  const u=currentUser;if(!u)return;
+  const avaEl=document.getElementById('um-avatar');
+  if(u.photo)avaEl.innerHTML=`<img src="${u.photo}" style="width:64px;height:64px;border-radius:50%;object-fit:cover">`;
+  else{const ini=u.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();avaEl.innerHTML=`<div style="width:64px;height:64px;border-radius:50%;background:var(--ib);color:var(--it);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700">${ini}</div>`;}
+  document.getElementById('um-name').textContent=u.name;
+  document.getElementById('um-role').textContent=u.role||'';
+  document.getElementById('um-its').textContent=u.its_number?'ITS: '+u.its_number:'';
+  openModal('user-modal');
+}
+
+// ══════════════════════════════════════════
+// ADMIN MODAL
+// ══════════════════════════════════════════
+function openAdminModal(){
+  const li=document.getElementById('am-login'),lg=document.getElementById('am-loggedin'),am=document.getElementById('am-title');
+  if(isAdmin()){li.style.display='none';lg.style.display='block';am.innerHTML='<i class="ti ti-shield-check"></i>Admin panel';}
+  else{li.style.display='block';lg.style.display='none';am.innerHTML='<i class="ti ti-lock"></i>Admin login';}
+  openModal('admin-modal');
+  if(!isAdmin())setTimeout(()=>document.getElementById('am-pw').focus(),100);
+}
+async function doAdminLogin(){
+  const pw=document.getElementById('am-pw').value;
+  try{
+    const data=await api.post('/api/auth/login',{its_number:pw});
+    if(!data.user.is_admin&&!data.user.isAdminLogin){showAlert('am-login-alert','This account does not have admin access.','d');return;}
+    currentUser=data.user;
+    document.getElementById('am-pw').value='';
+    hideAlert('am-login-alert');
+    updateAdminBadge();showAdminTabs();
+    openAdminModal();
+    buildSchedule();
+  }catch(e){showAlert('am-login-alert',e.error||'Incorrect password.','d');}
+}
+function doAdminLogout(){doAppLogout();}
+async function doChangePw(){
+  const np=document.getElementById('am-newpw').value;
+  try{await api.post('/api/auth/change-password',{newPassword:np});document.getElementById('am-newpw').value='';showAlert('am-pw-alert','Password updated.','s');setTimeout(()=>hideAlert('am-pw-alert'),2500);}
+  catch(e){showAlert('am-pw-alert',e.error||'Failed.','d');}
+}
+function updateAdminBadge(){
+  const lbl=document.getElementById('admin-lbl'),badge=document.getElementById('admin-badge');
+  if(isAdmin()){lbl.textContent='Admin ✓';badge.className='badge b-green';}
+  else{lbl.textContent='Admin';badge.className='badge b-amber';}
+  showAdminTabs();
+}
+
+// ══════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════
+const ADMIN_TABS=['volunteers','overview','roles'];
+function showAdminTabs(){
+  ADMIN_TABS.forEach(name=>{
+    const tab=document.getElementById('ntab-'+name);
+    if(tab)tab.classList.toggle('visible',isAdmin());
+  });
+}
+function showAdminContent(name){
+  const wall=document.getElementById('wall-'+name),content=document.getElementById('content-'+name),allowed=isAdmin();
+  if(wall)wall.style.display=allowed?'none':'flex';
+  if(content)content.style.display=allowed?'block':'none';
+}
+function switchTab(name,btn){
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  closeAllPickers();
+  if(ADMIN_TABS.includes(name)){
+    showAdminContent(name);
+    if(isAdmin()){
+      if(name==='volunteers'){renderVolList();populateRoleDropdowns();}
+      if(name==='overview')buildOverview();
+      if(name==='roles')renderRolesList();
+    }
+    return;
+  }
+  if(name==='schedule')buildSchedule();
+  if(name==='tasks')renderTasks();
+  if(name==='issues')renderIssues();
+}
+
+// ══════════════════════════════════════════
+// ROLES
+// ══════════════════════════════════════════
+function populateRoleDropdowns(){
+  const selects=['add-vol-role'];
+  selects.forEach(id=>{
+    const sel=document.getElementById(id);if(!sel)return;
+    const cur=sel.value;
+    sel.innerHTML='<option value="">— Select role —</option>';
+    roles.forEach(r=>{const o=document.createElement('option');o.value=r.name;o.textContent=r.name;sel.appendChild(o);});
+    if(cur&&roles.find(r=>r.name===cur))sel.value=cur;
+  });
+}
+async function addRole(){
+  const name=(document.getElementById('new-role-name').value||'').trim();
+  if(!name){showAlert('add-role-alert','Role name is required.');return;}
+  try{
+    const r=await api.post('/api/roles',{name,color:document.getElementById('new-role-color').value,desc:(document.getElementById('new-role-desc').value||'').trim()});
+    roles.push({id:r.id,name,color:document.getElementById('new-role-color').value,desc:document.getElementById('new-role-desc').value||''});
+    document.getElementById('new-role-name').value='';document.getElementById('new-role-desc').value='';
+    hideAlert('add-role-alert');renderRolesList();populateRoleDropdowns();
+  }catch(e){showAlert('add-role-alert',e.error||'Failed.','d');}
+}
+async function deleteRole(id){
+  if(!confirm('Delete this role?'))return;
+  await api.del('/api/roles/'+id);
+  roles=roles.filter(r=>r.id!==id);
+  renderRolesList();populateRoleDropdowns();
+}
+function renderRolesList(){
+  const n=roles.length;
+  const badge=document.getElementById('role-count-badge');if(badge)badge.textContent=n+' role'+(n!==1?'s':'');
+  const el=document.getElementById('roles-list-container');if(!el)return;
+  if(!roles.length){el.innerHTML=`<p style="font-size:13px;color:var(--tx2);text-align:center;padding:1.5rem">No roles yet. Add one above.</p>`;return;}
+  el.innerHTML=`<div>${roles.map(r=>`<div class="vol-row">
+    <span class="badge ${r.color}" style="flex-shrink:0;min-width:70px;justify-content:center">${r.name}</span>
+    <div style="flex:1;min-width:0;margin-left:4px"><div style="font-size:13px;font-weight:500">${r.name}</div>${r.desc?`<div style="font-size:11px;color:var(--tx1)">${r.desc}</div>`:''}</div>
+    ${isAdmin()?`<button class="btn btn-d btn-xs" onclick="deleteRole('${r.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>`:''}
+  </div>`).join('')}</div>`;
+}
+
+// ══════════════════════════════════════════
+// KHIDMATGUZAR PICKER (shared)
+// ══════════════════════════════════════════
+let schedSelectedVols=[],taskSelectedVols=[],issueReporterSel=null;
+
+function closeAllPickers(){
+  ['vol-picker-list','task-vol-list','issue-reporter-list'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#vol-search')&&!e.target.closest('#vol-picker-list'))document.getElementById('vol-picker-list').style.display='none';
+  if(!e.target.closest('#task-vol-search')&&!e.target.closest('#task-vol-list'))document.getElementById('task-vol-list').style.display='none';
+  if(!e.target.closest('#issue-reporter-search')&&!e.target.closest('#issue-reporter-list'))document.getElementById('issue-reporter-list').style.display='none';
+});
+
+function makeVolPickerList(listId,searchId,selectedArr,onToggle){
+  const search=document.getElementById(searchId).value.toLowerCase();
+  let pool=khidmatguzars;
+  if(!isAdmin()&&currentUser&&currentUser.id!=='__admin__')pool=pool.filter(v=>v.id===currentUser.id);
+  const vols=pool.filter(v=>v.name.toLowerCase().includes(search)||(v.role||'').toLowerCase().includes(search));
+  const el=document.getElementById(listId);el.style.display='block';
+  if(!vols.length){el.innerHTML=`<div class="vol-item" style="color:var(--tx2);font-size:12px;font-style:italic;cursor:default">${khidmatguzars.length===0?'No khidmatguzars yet':'No matches'}</div>`;return;}
+  el.innerHTML=vols.map(v=>{
+    const sel=selectedArr.some(s=>s.id===v.id);
+    return`<div class="vol-item${sel?' selected':''}" onclick="${onToggle}('${v.id}')">
+      ${avatarHtml(v,30)}
+      <div class="vol-info"><div class="vn">${v.name}${v.is_admin?` <span style="font-size:10px;padding:1px 6px;border-radius:10px;background:var(--ib);color:var(--it);margin-left:4px">admin</span>`:''}</div><div class="vr">${v.role||''}${v.its_number?' · ITS: '+v.its_number:''}</div></div>
+      <i class="ti ti-check tick"></i>
+    </div>`;
+  }).join('');
+}
+
+function openVolPicker(){makeVolPickerList('vol-picker-list','vol-search',schedSelectedVols,'toggleSchedVol');}
+function filterVolList(){openVolPicker();}
+function toggleSchedVol(vid){
+  const v=khidmatguzars.find(x=>x.id===vid);if(!v)return;
+  const idx=schedSelectedVols.findIndex(x=>x.id===vid);
+  if(idx>=0)schedSelectedVols.splice(idx,1);else schedSelectedVols.push(v);
+  document.getElementById('vol-search').value='';
+  makeVolPickerList('vol-picker-list','vol-search',schedSelectedVols,'toggleSchedVol');
+  renderSchedChips();
+}
+function renderSchedChips(){
+  document.getElementById('selected-chips').innerHTML=schedSelectedVols.map(v=>`<span class="chip">${avatarHtml(v,18)} ${v.name}<button class="cx" onclick="toggleSchedVol('${v.id}')">&times;</button></span>`).join('');
+}
+
+function openTaskVolPicker(){makeVolPickerList('task-vol-list','task-vol-search',taskSelectedVols,'toggleTaskVol');}
+function filterTaskVolList(){openTaskVolPicker();}
+function toggleTaskVol(vid){
+  const v=khidmatguzars.find(x=>x.id===vid);if(!v)return;
+  const idx=taskSelectedVols.findIndex(x=>x.id===vid);
+  if(idx>=0)taskSelectedVols.splice(idx,1);else taskSelectedVols.push(v);
+  document.getElementById('task-vol-search').value='';
+  makeVolPickerList('task-vol-list','task-vol-search',taskSelectedVols,'toggleTaskVol');
+  renderTaskChips();
+}
+function renderTaskChips(){
+  document.getElementById('task-assigned-chips').innerHTML=taskSelectedVols.map(v=>`<span class="chip">${avatarHtml(v,18)} ${v.name}<button class="cx" onclick="toggleTaskVol('${v.id}')">&times;</button></span>`).join('');
+}
+function filterIssueReporterList(){
+  const search=document.getElementById('issue-reporter-search').value.toLowerCase();
+  const vols=khidmatguzars.filter(v=>v.name.toLowerCase().includes(search)||(v.role||'').toLowerCase().includes(search));
+  const el=document.getElementById('issue-reporter-list');el.style.display='block';
+  if(!vols.length){el.innerHTML=`<div class="vol-item" style="font-size:12px;color:var(--tx2);cursor:default">No matches</div>`;return;}
+  el.innerHTML=vols.map(v=>`<div class="vol-item" onclick="selectIssueReporter('${v.id}','${v.name.replace(/'/g,"\\'")}')">
+    ${avatarHtml(v,28)}<div class="vol-info"><div class="vn">${v.name}</div><div class="vr">${v.role||''}</div></div>
+  </div>`).join('');
+}
+function openIssueReporterPicker(){filterIssueReporterList();}
+function selectIssueReporter(id,name){
+  issueReporterSel={id,name};
+  document.getElementById('issue-reporter-search').value=name;
+  document.getElementById('issue-reporter-list').style.display='none';
+}
+
+// ══════════════════════════════════════════
+// DATE PICKER & MEAL TOGGLES
+// ══════════════════════════════════════════
+let selectedDateIdx=null,selectedMeals=[];
+function buildDatePicker(){
+  const el=document.getElementById('date-picker');
+  el.innerHTML=DATES.map((d,i)=>`<button class="dbtn${selectedDateIdx===i?' sel':''}" onclick="selectDate(${i})">${FMT_M(d)}</button>`).join('');
+}
+function selectDate(i){selectedDateIdx=i;buildDatePicker();}
+function toggleMeal(inp){inp.closest('.mtog').classList.toggle('on',inp.checked);selectedMeals=[...document.querySelectorAll('.meal-wrap input:checked')].map(c=>c.value);}
+function buildTaskDateSelect(){
+  const sel=document.getElementById('task-date');
+  DATES.forEach((d,i)=>{const o=document.createElement('option');o.value=i;o.textContent=FMT_S(d);sel.appendChild(o);});
+}
+
+// ══════════════════════════════════════════
+// SCHEDULE
+// ══════════════════════════════════════════
+let mealFilter='all';
+function clearSubmitForm(){
+  schedSelectedVols=[];selectedDateIdx=null;selectedMeals=[];
+  document.querySelectorAll('.meal-wrap input').forEach(c=>c.checked=false);
+  document.querySelectorAll('.mtog').forEach(l=>l.classList.remove('on'));
+  document.getElementById('vol-search').value='';
+  renderSchedChips();buildDatePicker();hideAlert('sched-alert');
+  if(currentUser&&currentUser.id!=='__admin__'){schedSelectedVols=[currentUser];renderSchedChips();}
+}
+async function submitSchedule(){
+  if(!schedSelectedVols.length){showAlert('sched-alert','Select at least one khidmatguzar.');return;}
+  if(selectedDateIdx===null){showAlert('sched-alert','Select a date.');return;}
+  if(!selectedMeals.length){showAlert('sched-alert','Select at least one meal slot.');return;}
+  hideAlert('sched-alert');
+  try{
+    for(const v of schedSelectedVols){
+      await api.post('/api/availability',{khidmat_id:v.id,name:v.name,role:v.role||'',dateIndex:selectedDateIdx,meals:selectedMeals});
+    }
+    availability=await api.get('/api/availability');
+    buildSchedule();
+    const ok=document.getElementById('sched-ok');ok.style.display='inline-flex';setTimeout(()=>ok.style.display='none',2500);
+    clearSubmitForm();
+  }catch(e){showAlert('sched-alert',e.error||'Failed to save.','d');}
+}
+function setMealFilter(m,btn){mealFilter=m;document.querySelectorAll('.fpills .fp').forEach(b=>b.classList.remove('active'));btn.classList.add('active');buildSchedule();}
+function buildSchedule(){
+  const el=document.getElementById('schedule-list'),meals=mealFilter==='all'?MEALS:[mealFilter];
+  el.innerHTML=DATES.map((d,i)=>{
+    let uniq=new Set();meals.forEach(m=>(availability[KEY(i,m)]||[]).forEach(p=>uniq.add(p.name)));
+    const uc=uniq.size,cls=badgeCls(uc);
+    const rows=meals.map(meal=>{
+      const people=availability[KEY(i,meal)]||[];
+      const chips=people.length?people.map(p=>{
+        const vol=khidmatguzars.find(v=>v.id===p.khidmat_id);
+        const rmBtn=isAdmin()?`<button class="rm" onclick="removeFromSchedule(${p.id})">&times;</button>`:'';
+        return`<span class="vcell">${avatarHtml(vol||{name:p.name},18)} ${p.name}${rmBtn}</span>`;
+      }).join(''):'<span class="no-v">No khidmatguzars yet</span>';
+      const cc=badgeCls(people.length);
+      return`<div class="meal-row"><div class="mm"><div class="mname"><i class="ti ${MICON[meal]}" style="font-size:12px"></i>${meal.charAt(0).toUpperCase()+meal.slice(1)}</div><div class="mtime">${MTIME[meal]}</div></div><div class="vols-row">${chips}</div><span class="cbadge ${cc}">${people.length}/4</span></div>`;
+    }).join('');
+    return`<div class="day-block"><div class="day-hd"><div class="dn">${FMT(d)}</div><span class="cbadge ${cls}">${uc} khidmatguzar${uc!==1?'s':''}</span></div>${rows}</div>`;
+  }).join('');
+}
+async function removeFromSchedule(id){
+  if(!isAdmin())return;
+  await api.del('/api/availability/'+id);
+  availability=await api.get('/api/availability');
+  buildSchedule();
+}
+
+// ══════════════════════════════════════════
+// KHIDMATGUZARS (admin)
+// ══════════════════════════════════════════
+async function handleCSV(file){
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=async e=>{
+    const text=e.target.result;
+    const lines=text.trim().split(/\r?\n/);
+    if(lines.length<2){showAlert('csv-alert','CSV must have a header row and at least one data row.');return;}
+    const headers=lines[0].split(',').map(h=>h.trim().toLowerCase().replace(/['"]/g,''));
+    const nameIdx=headers.findIndex(h=>h==='name'||h==='full name'||h==='fullname');
+    const roleIdx=headers.findIndex(h=>h==='role'||h==='team');
+    const itsIdx=headers.findIndex(h=>h.includes('its'));
+    const phoneIdx=headers.findIndex(h=>h==='phone'||h==='mobile'||h==='tel'||h==='telephone');
+    const emailIdx=headers.findIndex(h=>h==='email'||h==='e-mail'||h==='emailaddress');
+    const adminIdx=headers.findIndex(h=>h==='admin'||h==='is_admin'||h==='isadmin');
+    if(nameIdx<0){showAlert('csv-alert','CSV must have a <strong>name</strong> column.');return;}
+    const imported=lines.slice(1).map(line=>{
+      const cols=line.split(',').map(c=>c.trim().replace(/^["']|["']$/g,''));
+      const name=cols[nameIdx]||'';if(!name)return null;
+      const adminVal=adminIdx>=0?cols[adminIdx]||'':'';
+      const is_admin=adminVal.toLowerCase()==='yes'||adminVal==='1'||adminVal.toLowerCase()==='true';
+      return{id:uid(),name,role:roleIdx>=0?(cols[roleIdx]||''):'',its_number:itsIdx>=0?(cols[itsIdx]||''):'',phone:phoneIdx>=0?(cols[phoneIdx]||''):'',email:emailIdx>=0?(cols[emailIdx]||''):'',is_admin,photo:null};
+    }).filter(Boolean);
+    if(!imported.length){showAlert('csv-alert','No valid rows found.');return;}
+    try{
+      const r=await api.post('/api/khidmatguzars/import',{khidmatguzars:imported,replace:false});
+      khidmatguzars=await api.get('/api/khidmatguzars');
+      showAlert('csv-alert',`Imported ${r.count} new khidmatguzars.`,'s');
+      renderVolList();updateVolCountBadge();
+    }catch(e){showAlert('csv-alert',e.error||'Import failed.','d');}
+  };
+  reader.readAsText(file);
+}
+function downloadSampleCSV(){
+  const csv='name,role,its_number,phone,email,admin\nAhmed Hussain,Kitchen,12345678,07700900001,ahmed@example.com,yes\nFatema Bohra,Logistics,87654321,07700900002,fatema@example.com,no\nYusuf Ali,Transport,11223344,07700900003,yusuf@example.com,no';
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='khidmatguzars-sample.csv';a.click();
+}
+async function addSingleVolunteer(){
+  const name=document.getElementById('add-vol-name').value.trim();
+  const role=document.getElementById('add-vol-role').value.trim();
+  const its=document.getElementById('add-vol-its').value.trim();
+  const photoInput=document.getElementById('add-vol-photo');
+  if(!name){showAlert('add-vol-alert','Name is required.');return;}
+  const doAdd=async(photoData)=>{
+    try{
+      const r=await api.post('/api/khidmatguzars',{id:uid(),name,role,its_number:its,phone:document.getElementById('add-vol-phone').value.trim(),email:document.getElementById('add-vol-email').value.trim(),is_admin:document.getElementById('add-vol-admin').checked,photo:photoData||null});
+      khidmatguzars=await api.get('/api/khidmatguzars');
+      document.getElementById('add-vol-name').value='';document.getElementById('add-vol-role').value='';document.getElementById('add-vol-its').value='';document.getElementById('add-vol-phone').value='';document.getElementById('add-vol-email').value='';document.getElementById('add-vol-admin').checked=false;photoInput.value='';document.getElementById('vol-photo-preview').style.display='none';
+      showAlert('add-vol-alert','Khidmatguzar added.','s');setTimeout(()=>hideAlert('add-vol-alert'),2000);
+      renderVolList();updateVolCountBadge();populateRoleDropdowns();
+    }catch(e){showAlert('add-vol-alert',e.error||'Failed.','d');}
+  };
+  if(photoInput.files[0]){const reader=new FileReader();reader.onload=e=>doAdd(e.target.result);reader.readAsDataURL(photoInput.files[0]);}
+  else doAdd(null);
+}
+function previewVolPhoto(inp){if(inp.files[0]){const r=new FileReader();r.onload=e=>{document.getElementById('vol-photo-img').src=e.target.result;document.getElementById('vol-photo-preview').style.display='block';};r.readAsDataURL(inp.files[0]);}}
+async function clearVolunteers(){
+  if(!confirm('Remove all khidmatguzars? This cannot be undone.'))return;
+  for(const v of [...khidmatguzars])await api.del('/api/khidmatguzars/'+v.id).catch(()=>{});
+  khidmatguzars=[];renderVolList();updateVolCountBadge();
+}
+async function deleteVolunteer(id){
+  if(!confirm('Remove this khidmatguzar?'))return;
+  await api.del('/api/khidmatguzars/'+id);
+  khidmatguzars=khidmatguzars.filter(v=>v.id!==id);
+  renderVolList();updateVolCountBadge();
+}
+async function toggleVolAdmin(id){
+  const v=khidmatguzars.find(x=>x.id===id);if(!v)return;
+  v.is_admin=!v.is_admin;
+  await api.put('/api/khidmatguzars/'+id,{...v});
+  if(currentUser&&currentUser.id===id){currentUser.is_admin=v.is_admin;updateAdminBadge();}
+  renderVolList();
+}
+function renderVolList(){
+  const search=(document.getElementById('vol-list-search').value||'').toLowerCase();
+  const vols=khidmatguzars.filter(v=>!search||v.name.toLowerCase().includes(search)||(v.role||'').toLowerCase().includes(search));
+  const el=document.getElementById('vol-list-container');
+  if(!vols.length){el.innerHTML=`<p style="font-size:13px;color:var(--tx2);text-align:center;padding:1.5rem">No khidmatguzars yet. Import a CSV or add one above.</p>`;return;}
+  el.innerHTML=`<div>${vols.map(v=>{
+    const rc=getRoleColor(v.role);const rb=v.role?`<span class="badge ${rc}" style="font-size:10px;padding:2px 7px">${v.role}</span>`:'';
+    const ab=v.is_admin?`<span class="badge b-blue" style="font-size:10px;padding:2px 7px"><i class="ti ti-shield-check" style="font-size:10px"></i> admin</span>`:'';
+    const atb=isAdmin()?`<button class="btn btn-xs ${v.is_admin?'btn-d':'btn-s'}" style="margin-right:4px" onclick="toggleVolAdmin('${v.id}')" title="${v.is_admin?'Remove admin':'Make admin'}"><i class="ti ti-shield${v.is_admin?'-off':'-check'}" style="font-size:12px"></i></button>`:'';
+    return`<div class="vol-row">${avatarHtml(v,36)}
+    <div style="flex:1;min-width:0">
+      <div style="font-size:13px;font-weight:500;display:flex;align-items:center;gap:5px;flex-wrap:wrap">${v.name} ${rb} ${ab}</div>
+      <div style="font-size:11px;color:var(--tx1);margin-top:1px">${v.its_number?'ITS: '+v.its_number:''}</div>
+      <div style="font-size:11px;color:var(--tx1);display:flex;flex-wrap:wrap;gap:8px;margin-top:2px">
+        ${v.phone?`<span><i class="ti ti-phone" style="font-size:11px;vertical-align:-1px"></i> <a href="tel:${v.phone}" style="color:var(--it);text-decoration:none">${v.phone}</a></span>`:''}
+        ${v.email?`<span><i class="ti ti-mail" style="font-size:11px;vertical-align:-1px"></i> <a href="mailto:${v.email}" style="color:var(--it);text-decoration:none">${v.email}</a></span>`:''}
+      </div>
+    </div>
+    <div style="display:flex;gap:4px;align-items:center">${atb}${isAdmin()?`<button class="btn btn-d btn-xs" onclick="deleteVolunteer('${v.id}')"><i class="ti ti-trash" style="font-size:12px"></i></button>`:''}</div>
+  </div>`;}).join('')}</div>`;
+  updateVolCountBadge();
+}
+function updateVolCountBadge(){
+  const n=khidmatguzars.length;
+  const b=document.getElementById('vol-count-badge');if(b)b.textContent=n+' khidmatguzar'+(n!==1?'s':'');
+  const cb=document.getElementById('clear-vol-btn');if(cb)cb.style.display=n>0&&isAdmin()?'inline-flex':'none';
+}
+
+// ══════════════════════════════════════════
+// TASKS
+// ══════════════════════════════════════════
+let taskFilter='all';
+async function addTask(){
+  const title=document.getElementById('task-title').value.trim();
+  if(!title){showAlert('task-alert','Task title is required.');return;}
+  try{
+    await api.post('/api/tasks',{id:uid(),title,priority:document.getElementById('task-priority').value,date_index:document.getElementById('task-date').value,meal:document.getElementById('task-meal').value,notes:document.getElementById('task-notes').value.trim(),assigned:taskSelectedVols.map(v=>({id:v.id,name:v.name,role:v.role||''}))});
+    tasks=await api.get('/api/tasks');
+    document.getElementById('task-title').value='';document.getElementById('task-notes').value='';document.getElementById('task-priority').value='med';document.getElementById('task-date').value='';document.getElementById('task-meal').value='';
+    taskSelectedVols=[];renderTaskChips();hideAlert('task-alert');renderTasks();
+  }catch(e){showAlert('task-alert',e.error||'Failed.','d');}
+}
+function setTaskFilter(f,btn){taskFilter=f;document.querySelectorAll('#view-tasks .fpills .fp').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTasks();}
+async function toggleTask(id){
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  await api.put('/api/tasks/'+id,{...t,done:!t.done});
+  tasks=await api.get('/api/tasks');renderTasks();
+}
+async function deleteTask(id){
+  if(!confirm('Delete this task?'))return;
+  await api.del('/api/tasks/'+id);
+  tasks=tasks.filter(t=>t.id!==id);renderTasks();
+}
+const PRIMAP={high:{cls:'b-red',label:'High',dot:'pri-high'},med:{cls:'b-amber',label:'Medium',dot:'pri-med'},low:{cls:'b-green',label:'Low',dot:'pri-low'}};
+function renderTasks(){
+  let t=tasks;
+  if(taskFilter==='open')t=t.filter(x=>!x.done);
+  else if(taskFilter==='done')t=t.filter(x=>x.done);
+  else if(['high','med','low'].includes(taskFilter))t=t.filter(x=>x.priority===taskFilter);
+  const el=document.getElementById('task-list');
+  if(!t.length){el.innerHTML=`<p style="font-size:13px;color:var(--tx2);text-align:center;padding:2rem">No tasks yet.</p>`;return;}
+  el.innerHTML=t.map(task=>{
+    const pr=PRIMAP[task.priority]||PRIMAP.med;
+    const di=task.date_index!==''&&task.date_index!==undefined&&DATES[task.date_index]?FMT_S(DATES[task.date_index]):'';
+    const mealTag=task.meal?`<span class="badge b-gray"><i class="ti ${MICON[task.meal]}" style="font-size:11px"></i>${task.meal}</span>`:'';
+    const asgn=task.assigned&&task.assigned.length?task.assigned.map(a=>{const vol=khidmatguzars.find(v=>v.id===a.id);return`<span class="chip" style="font-size:11px;padding:2px 7px 2px 5px">${avatarHtml(vol||{name:a.name},16)} ${a.name}</span>`;}).join(''):'<span style="color:var(--tx2);font-size:11px">Unassigned</span>';
+    const notes=task.notes?`<div style="font-size:12px;color:var(--tx1);padding:8px 14px;border-top:0.5px solid var(--bl)">${task.notes}</div>`:'';
+    const del=isAdmin()?`<button class="btn btn-d btn-xs" onclick="deleteTask('${task.id}')"><i class="ti ti-trash" style="font-size:11px"></i></button>`:'';
+    return`<div class="task-card"><div class="task-hd"><div class="tcheck${task.done?' done':''}" onclick="toggleTask('${task.id}')"></div><span class="ttitle${task.done?' done':''}">${task.title}</span><span class="badge ${pr.cls} btn-xs"><span class="${pr.dot}"></span>${pr.label}</span>${del}</div><div class="task-ft">${di?`<span><i class="ti ti-calendar" style="font-size:12px"></i> ${di}</span>`:''}${mealTag}<div class="assigned">${asgn}</div></div>${notes}</div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// ISSUES
+// ══════════════════════════════════════════
+let issueFilter='all';
+let pendingIssuePhotos=[];
+function handleIssuePhotos(files){
+  [...files].forEach(file=>{if(pendingIssuePhotos.length>=6)return;const r=new FileReader();r.onload=e=>{pendingIssuePhotos.push({dataUrl:e.target.result,name:file.name});renderIssueThumbs();};r.readAsDataURL(file);});
+}
+function renderIssueThumbs(){document.getElementById('issue-thumbs').innerHTML=pendingIssuePhotos.map((p,i)=>`<div class="thumb-wrap"><img src="${p.dataUrl}" alt="" onclick="openLightbox('${p.dataUrl}')" style="cursor:pointer"><button class="del-img" onclick="removeIssuePhoto(${i})">×</button></div>`).join('');}
+function removeIssuePhoto(i){pendingIssuePhotos.splice(i,1);renderIssueThumbs();}
+async function submitIssue(){
+  const title=document.getElementById('issue-title').value.trim();
+  const reporter=issueReporterSel?issueReporterSel.name:document.getElementById('issue-reporter-search').value.trim();
+  if(!title){showAlert('issue-alert','Issue title is required.');return;}
+  if(!reporter){showAlert('issue-alert','Please enter or select who is reporting.');return;}
+  try{
+    await api.post('/api/issues',{title,description:document.getElementById('issue-desc').value.trim(),reporter,category:document.getElementById('issue-cat').value,severity:document.getElementById('issue-sev').value,photos:pendingIssuePhotos.map(p=>p.dataUrl)});
+    issues=await api.get('/api/issues');
+    document.getElementById('issue-title').value='';document.getElementById('issue-desc').value='';document.getElementById('issue-reporter-search').value='';issueReporterSel=null;document.getElementById('issue-cat').value='food';document.getElementById('issue-sev').value='med';pendingIssuePhotos=[];renderIssueThumbs();
+    hideAlert('issue-alert');renderIssues();showAlert('issue-alert','Issue submitted.','s');setTimeout(()=>hideAlert('issue-alert'),2500);
+  }catch(e){showAlert('issue-alert',e.error||'Failed.','d');}
+}
+function setIssueFilter(f,btn){issueFilter=f;document.querySelectorAll('#view-issues .fpills .fp').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderIssues();}
+async function toggleIssueStatus(id){
+  const iss=issues.find(i=>i.id===id);if(!iss)return;
+  const ns=iss.status==='open'?'resolved':'open';
+  await api.put('/api/issues/'+id+'/status',{status:ns});
+  issues=await api.get('/api/issues');renderIssues();
+}
+async function deleteIssue(id){
+  if(!confirm('Delete this issue report?'))return;
+  await api.del('/api/issues/'+id);issues=issues.filter(i=>i.id!==id);renderIssues();
+}
+const SEV={low:{cls:'b-green',label:'Low'},med:{cls:'b-amber',label:'Medium'},high:{cls:'b-red',label:'High'},crit:{cls:'b-red',label:'Critical ⚠'}};
+const CAT={food:'Food/Kitchen',logistics:'Logistics',safety:'Safety',facilities:'Facilities',other:'Other'};
+function renderIssues(){
+  let iss=issues;
+  if(issueFilter==='open')iss=iss.filter(i=>i.status==='open');
+  else if(issueFilter==='resolved')iss=iss.filter(i=>i.status==='resolved');
+  else if(issueFilter==='crit')iss=iss.filter(i=>i.severity==='crit');
+  const el=document.getElementById('issue-list');
+  if(!iss.length){el.innerHTML=`<p style="font-size:13px;color:var(--tx2);text-align:center;padding:2rem">No issues found.</p>`;return;}
+  el.innerHTML=iss.map(i=>{
+    const sv=SEV[i.severity]||SEV.med;const photos=i.photos||[];
+    const photo=photos.length?`<div style="cursor:pointer;flex-shrink:0" onclick="openLightbox('${photos[0]}')"><img src="${photos[0]}" style="width:56px;height:56px;border-radius:var(--r8);object-fit:cover"></div>`:`<div style="width:56px;height:56px;border-radius:var(--r8);background:var(--bg1);display:flex;align-items:center;justify-content:center;color:var(--tx2);font-size:22px;flex-shrink:0"><i class="ti ti-alert-triangle"></i></div>`;
+    const sc=i.status==='resolved'?'b-green':'b-amber';
+    const ts=new Date(i.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    return`<div class="issue-card"><div class="issue-hd">${photo}<div class="issue-meta"><div class="ititle">${i.title}</div><div class="idesc">${i.description||'No description'}</div><div style="display:flex;gap:5px;flex-wrap:wrap"><span class="badge ${sv.cls}">${sv.label}</span><span class="badge b-gray">${CAT[i.category]||i.category}</span><span class="badge ${sc}">${i.status}</span>${photos.length>1?`<span class="badge b-blue"><i class="ti ti-photo" style="font-size:11px"></i> ${photos.length} photos</span>`:''}</div></div></div>
+    <div class="issue-ft"><i class="ti ti-user" style="font-size:12px"></i>${i.reporter} &nbsp;·&nbsp; <i class="ti ti-clock" style="font-size:12px"></i>${ts}<span style="margin-left:auto;display:flex;gap:5px">${photos.length?`<button class="btn btn-s btn-xs" onclick="openIssueModal('${i.id}')"><i class="ti ti-eye" style="font-size:11px"></i> View all</button>`:''} ${isAdmin()?`<button class="btn btn-s btn-xs" onclick="toggleIssueStatus('${i.id}')">${i.status==='open'?'Resolve':'Reopen'}</button>`:''} ${isAdmin()?`<button class="btn btn-d btn-xs" onclick="deleteIssue('${i.id}')"><i class="ti ti-trash" style="font-size:11px"></i></button>`:''}</span></div></div>`;
+  }).join('');
+}
+function openIssueModal(id){
+  const iss=issues.find(i=>i.id===id);if(!iss)return;
+  const sv=SEV[iss.severity]||SEV.med;
+  document.getElementById('im-title').textContent=iss.title;
+  document.getElementById('im-body').innerHTML=`<div style="font-size:13px;color:var(--tx1);margin-bottom:12px;line-height:1.6">${iss.description||'No description'}</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px"><span class="badge ${sv.cls}">${sv.label}</span><span class="badge b-gray">${CAT[iss.category]||iss.category}</span></div>${(iss.photos||[]).length?`<div style="display:flex;flex-wrap:wrap;gap:6px">${iss.photos.map(p=>`<img src="${p}" onclick="openLightbox('${p}')" style="width:80px;height:80px;object-fit:cover;border-radius:var(--r8);cursor:pointer;border:0.5px solid var(--bl)">`).join('')}</div>`:''}`;
+  document.getElementById('im-actions').innerHTML=`<button class="btn btn-s btn-sm" onclick="closeModal('issue-modal')">Close</button>`;
+  openModal('issue-modal');
+}
+
+// ══════════════════════════════════════════
+// OVERVIEW
+// ══════════════════════════════════════════
+function buildOverview(){
+  let total=DATES.length*3,filled=0,under=0,totalVols=0;
+  DATES.forEach((_,i)=>MEALS.forEach(m=>{const c=(availability[KEY(i,m)]||[]).length;if(c>0)filled++;if(c<4)under++;totalVols+=c;}));
+  const openTasks=tasks.filter(t=>!t.done).length,openIssues=issues.filter(i=>i.status==='open').length;
+  document.getElementById('ov-metrics').innerHTML=`<div class="met"><div class="mv">${khidmatguzars.length}</div><div class="ml">Khidmatguzars</div></div><div class="met"><div class="mv">${filled}/${total}</div><div class="ml">Slots covered</div></div><div class="met"><div class="mv">${openTasks}</div><div class="ml">Open tasks</div></div><div class="met"><div class="mv">${openIssues}</div><div class="ml">Open issues</div></div>`;
+  const cov=document.getElementById('ov-coverage');
+  cov.innerHTML=DATES.map((d,i)=>{
+    const bars=MEALS.map(m=>{const c=Math.min((availability[KEY(i,m)]||[]).length,4);return`<div class="cov-bar-wrap" title="${m}: ${c}/4"><div class="cov-bar-track"><div class="cov-bar-fill" style="width:${Math.round(c/4*100)}%;background:${MCOL[m]}"></div></div><div class="cov-bar-label" style="font-size:10px;color:var(--tx2);margin-top:1px;text-align:center">${c}/4</div></div>`;}).join('');
+    return`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:0.5px solid var(--bl)"><span style="width:80px;flex-shrink:0;font-size:12px;color:var(--tx1)">${FMT_M(d)}</span><div style="flex:1;display:flex;gap:8px">${bars}</div></div>`;
+  }).join('');
+  const hi=tasks.filter(t=>!t.done&&t.priority==='high').length,md=tasks.filter(t=>!t.done&&t.priority==='med').length,lo=tasks.filter(t=>!t.done&&t.priority==='low').length,dn=tasks.filter(t=>t.done).length;
+  document.getElementById('ov-tasks').innerHTML=tasks.length?`<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="badge b-red"><span class="pri-high"></span>${hi} high</span><span class="badge b-amber"><span class="pri-med"></span>${md} medium</span><span class="badge b-green"><span class="pri-low"></span>${lo} low</span><span class="badge b-gray"><i class="ti ti-check" style="font-size:11px"></i>${dn} done</span></div>`:'<p style="font-size:13px;color:var(--tx2)">No tasks yet.</p>';
+  document.getElementById('ov-issues').innerHTML=issues.slice(0,4).map(iss=>{const sv=SEV[iss.severity]||SEV.med;return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:0.5px solid var(--bl)"><span class="badge ${sv.cls}" style="flex-shrink:0">${sv.label}</span><span style="flex:1;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${iss.title}</span><span class="badge ${iss.status==='open'?'b-amber':'b-green'}" style="flex-shrink:0">${iss.status}</span></div>`;}).join('')||'<p style="font-size:13px;color:var(--tx2)">No issues yet.</p>';
+}
+
+// ══════════════════════════════════════════
+// LIGHTBOX
+// ══════════════════════════════════════════
+function openLightbox(src){document.getElementById('lb-img').src=src;document.getElementById('lightbox').classList.add('open');}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+
+// ══════════════════════════════════════════
+// MODAL CLOSE ON BACKDROP
+// ══════════════════════════════════════════
+document.querySelectorAll('.mbk').forEach(bk=>bk.addEventListener('click',e=>{if(e.target===bk)bk.classList.remove('open');}));
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+buildDatePicker();
+buildTaskDateSelect();
+updateAdminBadge();
+
+// Check for existing session
+(async()=>{
+  try{
+    const data=await api.get('/api/auth/me');
+    if(data.user){
+      currentUser=data.user;
+      await loadAll();
+      showApp();
+    } else {
+      document.getElementById('app-login').style.display='flex';
+      setTimeout(()=>document.getElementById('login-its').focus(),200);
+    }
+  }catch(e){
+    document.getElementById('app-login').style.display='flex';
+    setTimeout(()=>document.getElementById('login-its').focus(),200);
+  }
+})();
+</script>
+</body>
+</html>
